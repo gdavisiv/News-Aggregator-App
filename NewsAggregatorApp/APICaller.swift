@@ -25,9 +25,11 @@ final class APICaller {
         let task = URLSession.shared.dataTask(with: url) { data, _, error in
             if let error = error {
                 completion(.failure(error))
+            }
+            else if let data = data {
                 
                 do {
-                    let results = try JSONDecoder().decode(String.self , from: data)
+                    let result = try JSONDecoder().decode(String.self, from: data)
                 }
                 catch {
                     completion(.failure(error))
@@ -40,3 +42,14 @@ final class APICaller {
 }
 
 //Create the models
+
+struct APIResponse: Codable {
+    let articles: [Article]
+}
+
+struct Article: Codable {
+    let title: String
+    let description: String
+    let url: String
+    let urlToImage: String
+}
