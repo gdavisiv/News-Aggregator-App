@@ -18,6 +18,25 @@ final class APICaller {
     private init(){}
     
     public func getTopStories(completion: @escaping (Result<[String], Error>) -> Void) {
+        guard let url = Constants.topHeadlinesURL else {
+            return
+        }
         
+        let task = URLSession.shared.dataTask(with: url) { data, _, error in
+            if let error = error {
+                completion(.failure(error))
+                
+                do {
+                    let results = try JSONDecoder().decode(String.self , from: data)
+                }
+                catch {
+                    completion(.failure(error))
+                }
+            }
+        }
+        
+        task.resume()
     }
 }
+
+//Create the models
